@@ -1,9 +1,10 @@
 {% extends 'global/base.html' %}
 {% block title %}ALTERAR | {% endblock title %}
+{% block content %}
+    <div class="main-content main-content-detail container">
 
-<div class="main-content container main-content-detail">
-   {% block content %}
        {%include 'recipes/partials/recipes.html'%}
-   {% endblock content %}
-</div>
+ 
+    </div>
+{% endblock content %}
 
