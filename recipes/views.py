@@ -5,7 +5,7 @@ from utils.recipes.factory import make_recipe
 
 
 def home(request):
-    recipes = Recipe.objects.filter(is_publisched=True).order_by('-id')
+    recipes = Recipe.objects.filter(is_published=True).order_by('-id')
     return render(request, 'recipes/pages/home.html', context={
         'recipes': recipes,
     })
@@ -13,7 +13,7 @@ def home(request):
 
 def category(request, category_id):
     recipes = Recipe.objects.filter(
-        category__id=category_id, is_publisched=True).order_by('-id')
+        category__id=category_id, is_published=True).order_by('-id')
     return render(request, 'recipes/pages/category.html', context={
         'recipes': recipes,
     })
