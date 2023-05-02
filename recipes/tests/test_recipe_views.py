@@ -31,11 +31,8 @@ class RecipeViewsTest(TestCase):
             last_name='name',
             username='username',
             password='123456',
-            email='username@email.com',
-
-
+            email='username@email.com'
         )
-
         recipes = Recipe.objects.create(
             category=category,
             author=author,
@@ -49,14 +46,18 @@ class RecipeViewsTest(TestCase):
             preparation_steps='Recipe Preparation Steps',
             preparation_steps_is_html=False,
             is_published=True,
-
         )
         # Other way to create category, but it is necessary to include the command save()
         # category = Category(name='Category')
         # category.full_clean()
         # category.save()
+        response = self.client.get(reverse('recipes:home'))
+        response_recipes = response.context['recipes']
 
-        assert 1 == 1
+        self.assertEqual(len(response.context['recipes']), 1)
+        self.assertEqual(response_recipes.first().title, 'Recipe Title')
+
+        pass  # or ...
 
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
