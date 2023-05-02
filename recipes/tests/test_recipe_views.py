@@ -52,12 +52,14 @@ class RecipeViewsTest(TestCase):
         # category.full_clean()
         # category.save()
         response = self.client.get(reverse('recipes:home'))
-        response_recipes = response.context['recipes']
+        content = response.content.decode('utf-8')
+        response_context_recipes = response.context['recipes']
+        self.assertIn('Recipe Title', content)
+        self.assertIn('10 Minutos', content)
+        self.assertIn('5 Porções', content)
+        self.assertEqual(len(response_context_recipes))
 
-        self.assertEqual(len(response.context['recipes']), 1)
-        self.assertEqual(response_recipes.first().title, 'Recipe Title')
-
-        pass  # or ...
+        ...
 
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
