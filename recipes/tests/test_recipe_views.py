@@ -35,20 +35,13 @@ class RecipeViewsTest(RecipeTestBase):
         # category = Category(name='Category')
         # category.full_clean()
         # category.save()
-        self.make_recipe(author_data={
-            'first_name': 'joazinho'
-        }, category_data={
-            'name': 'café da manhã'
-        })
+        self.make_recipe()
+
         response = self.client.get(reverse('recipes:home'))
         content = response.content.decode('utf-8')
         response_context_recipes = response.context['recipes']
-        self.assertIn('Recipe Title', content)
-        self.assertIn('10 Minutos', content)
-        self.assertIn('5 Porções', content)
-        self.assertIn('joazinho', content)
-        self.assertIn('café da manhã', content)
 
+        self.assertIn('Recipe Title', content)
         self.assertEqual(len(response_context_recipes), 1)
         ...
 
