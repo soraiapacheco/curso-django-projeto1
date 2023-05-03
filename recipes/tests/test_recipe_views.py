@@ -6,25 +6,8 @@ from recipes.models import Category, Recipe, User
 
 
 class RecipeViewsTest(TestCase):
-    def test_recipe_home_view_function_is_correct(self):
-        view = resolve(reverse('recipes:home'))
-        self.assertIs(view.func, views.home)
+    def setUp(self) -> None:
 
-    def test_recipe_home_view_returns_status_code_200_ok(self):
-        response = self.client.get(reverse('recipes:home'))
-        self.assertEqual(response.status_code, 200)
-
-    def test_recipe_home_view_loads_correct_template(self):
-        response = self.client.get(reverse('recipes:home'))
-        self.assertTemplateUsed(response, 'recipes/pages/home.html')
-
-    def test_recipe_home_template_shows_no_recipes_found_if_no_recipes(self):
-        response = self.client.get(reverse('recipes:home'))
-        self.assertIn(
-            '<h1>No recipes found here!</h1>',
-            response.content.decode('utf-8'))
-
-    def test_recipe_home_templates_loads_recipes(self):
         category = Category.objects.create(name='Category')
         author = User.objects.create_user(
             first_name='user',
@@ -45,8 +28,36 @@ class RecipeViewsTest(TestCase):
             servings_unit='Porções',
             preparation_steps='Recipe Preparation Steps',
             preparation_steps_is_html=False,
-            is_published=True,
+            is_published=True
         )
+
+        return super().setUp()
+
+    def tearDown(self) -> None:
+        return super().tearDown()
+
+    # setUp is runned before of each test
+    def test_recipe_home_view_function_is_correct(self):
+        view = resolve(reverse('recipes:home'))
+        self.assertIs(view.func, views.home)
+    # tearDown is runned after of each test
+
+    def test_recipe_home_view_returns_status_code_200_ok(self):
+        response = self.client.get(reverse('recipes:home'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_recipe_home_view_loads_correct_template(self):
+        response = self.client.get(reverse('recipes:home'))
+        self.assertTemplateUsed(response, 'recipes/pages/home.html')
+
+    def test_recipe_home_template_shows_no_recipes_found_if_no_recipes(self):
+        Recipe.objects.get(pk=1).delete()
+        response = self.client.get(reverse('recipes:home'))
+        self.assertIn(
+            '<h1>No recipes found here!</h1>',
+            response.content.decode('utf-8'))
+
+    def test_recipe_home_templates_loads_recipes(self):
         # Other way to create category, but it is necessary to include the command save()
         # category = Category(name='Category')
         # category.full_clean()
@@ -57,8 +68,7 @@ class RecipeViewsTest(TestCase):
         self.assertIn('Recipe Title', content)
         self.assertIn('10 Minutos', content)
         self.assertIn('5 Porções', content)
-        self.assertEqual(len(response_context_recipes))
-
+        self.assertEqual(len(response_context_recipes), 1)
         ...
 
     def test_recipe_category_view_function_is_correct(self):
