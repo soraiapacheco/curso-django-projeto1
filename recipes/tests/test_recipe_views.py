@@ -25,7 +25,6 @@ class RecipeViewsTest(RecipeTestBase):
         self.assertTemplateUsed(response, 'recipes/pages/home.html')
 
     def test_recipe_home_template_shows_no_recipes_found_if_no_recipes(self):
-        Recipe.objects.get(pk=1).delete()
         response = self.client.get(reverse('recipes:home'))
         self.assertIn(
             '<h1>No recipes found here!</h1>',
@@ -36,6 +35,7 @@ class RecipeViewsTest(RecipeTestBase):
         # category = Category(name='Category')
         # category.full_clean()
         # category.save()
+        self.make_recipe()
         response = self.client.get(reverse('recipes:home'))
         content = response.content.decode('utf-8')
         response_context_recipes = response.context['recipes']

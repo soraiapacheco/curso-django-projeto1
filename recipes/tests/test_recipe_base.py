@@ -5,12 +5,6 @@ from recipes.models import Category, Recipe, User
 
 class RecipeTestBase(TestCase):
 
-    def setUp(self) -> None:
-
-        self.make_recipe()
-
-        return super().setUp()
-
     def make_category(self, name='Category'):
         return Category.objects.create(name=name)
 
