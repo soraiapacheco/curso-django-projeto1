@@ -50,7 +50,28 @@ class RecipeViewsTest(RecipeTestBase):
 
         self.assertIn('Recipe Title', content)
         self.assertEqual(len(response_context_recipes), 1)
-        ...
+
+    def test_recipe_category_templates_loads_recipes(self):
+        needed_title = 'It is category test'
+
+        self.make_recipe(title=needed_title)
+
+        response = self.client.get(reverse('recipes:home'))
+        content = response.content.decode('utf-8')
+
+        self.assertIn(needed_title, content)
+
+    def test_recipe_detail_templates_loads_recipes(self):
+        needed_title = 'This is a detail page. It load one recipe'
+
+        self.make_recipe(title=needed_title)
+
+        response = self.client.get(reverse('recipes:recipe',
+                                   kwargs={'id': 1
+                                           }))
+        content = response.content.decode('utf-8')
+
+        self.assertIn(needed_title, content)
 
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
