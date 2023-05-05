@@ -12,3 +12,18 @@ class RecipeModelTest(RecipeTestBase):
         self.recipe.title = 'A' * 70
         with self.assertRaises(ValidationError):
             self.recipe.full_clean()
+
+    def test_recipe_max_length(self):
+        fields = [
+            ('title', 65),
+            ('description', 165),
+            ('preparation_time_unit', 65),
+            ('servings_unit', 65)
+
+        ]
+        for field, max_length in fields:
+            with self.subTest(field=field, max_length=max_length):
+                # attribution dynamic for recipe variable
+                setattr(self.recipe, field, 'A' * (max_length+1))
+                with self.assertRaises(ValidationError):
+                    self.recipe.full_clean()
