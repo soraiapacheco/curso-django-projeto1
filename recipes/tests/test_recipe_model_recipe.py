@@ -9,13 +9,13 @@ class RecipeModelTest(RecipeTestBase):
         self.recipe = self.make_recipe()
         return super().setUp()
 
-    def make_recipe_no_defaults(self):
+    def make_recipe_no_defaults(self, slug='recipe-slug'):
         recipe = Recipe(
             category=self.make_category(name='Test Default Category'),
             author=self.make_author(username='newuser'),
             title='Recipe Title',
             description='Recipe Description',
-            slug='recipe-slug',
+            slug=slug,
             preparation_time=10,
             preparation_time_unit='Minutos',
             servings=5,
@@ -37,12 +37,12 @@ class RecipeModelTest(RecipeTestBase):
             self.recipe.full_clean()
 
     def test_recipe_preparation_steps_is_html_is_false_by_default(self):
-        recipe = self.make_recipe_no_defaults()
+        recipe = self.make_recipe_no_defaults(slug='recipe-slug1')
         self.assertFalse(recipe.preparation_steps_is_html,
                          msg='Recipe preparation_steps_is_html is not False',)
 
     def test_recipe_is_published_is_false_by_default(self):
-        recipe = self.make_recipe_no_defaults()
+        recipe = self.make_recipe_no_defaults(slug='recipe-slug2')
         self.assertFalse(recipe.is_published,
                          msg='Recipe is_published is not False',)
 

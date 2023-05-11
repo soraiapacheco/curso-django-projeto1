@@ -1,4 +1,4 @@
-from unittest import skip
+# from unittest import skip
 
 from django.urls import resolve, reverse
 
@@ -11,7 +11,7 @@ from .test_recipe_base import RecipeTestBase
 # @skip('mensagem porque eu estou pulando esses testes')
 class RecipeViewsTest(RecipeTestBase):
 
-  # setUp is runned before of each test
+    # setUp is runned before of each test
     def test_recipe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
         self.assertIs(view.func, views.home)
@@ -38,7 +38,8 @@ class RecipeViewsTest(RecipeTestBase):
         # self.fail('Para eu terminar de digitar o que falta')
 
     def test_recipe_home_templates_loads_recipes(self):
-        # Other way to create category, but it is necessary to include the command save()
+        # Other way to create category, but it is necessary to
+        #  include the command save()
         # category = Category(name='Category')
         # category.full_clean()
         # category.save()
@@ -74,7 +75,8 @@ class RecipeViewsTest(RecipeTestBase):
         recipe = self.make_recipe(is_published=False)
 
         response = self.client.get(
-            reverse('recipes:category', kwargs={'category_id': recipe.category.id}))
+            reverse('recipes:category',
+                    kwargs={'category_id': recipe.category.id}))
         self.assertEqual(response.status_code, 404)
 
     def test_recipe_category_view_function_is_correct(self):
@@ -115,4 +117,18 @@ class RecipeViewsTest(RecipeTestBase):
             reverse('recipes:recipe',
                     kwargs={'id': recipe.id}))
 
+        self.assertEqual(response.status_code, 404)
+
+    def test_recipe_search_uses_correct_view_function(self):
+        resolved = resolve(reverse('recipes:search'))
+        self.assertIs(resolved.func, views.search)
+
+    def test_recipe_search_loads_correct_template(self):
+        url = reverse('recipes:search') + '?q=teste'
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, 'recipes/pages/search.html')
+
+    def test_recipe_search_raises_404_if_no_search_term(self):
+        url = reverse('recipes:search')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
