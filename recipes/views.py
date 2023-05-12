@@ -42,4 +42,5 @@ def search(request):
 
     return render(request, 'recipes/pages/search.html', {
                   'page_title': f'Search for "{search_term}" |',
+                  'search_term': search_term,
                   })
