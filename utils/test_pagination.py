@@ -1,8 +1,6 @@
 from unittest import TestCase
 
-
-def make_pagination_range(page_range, qty_pages, current_page):
-    return [1, 2, 3, 4]
+from utils.pagination import make_pagination_range
 
 
 class PaginationTest(TestCase):
