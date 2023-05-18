@@ -62,8 +62,6 @@ class RecipeHomeViewsTest(RecipeTestBase):
         self.assertIn('<h1>No recipes found here!</h1>',
                       response.content.decode('utf-8'))
 
-    # patch'mock package as decoration
-    @patch('recipes.views.PER_PAGE', new=3)
     def test_recipe_home_is_paginated(self):
         for i in range(9):
             kwargs = {'author_data': {'username': f'u{i}'}, 'slug': f'r{i}'}
@@ -76,8 +74,10 @@ class RecipeHomeViewsTest(RecipeTestBase):
         # simulating the per_page value
         # recipes.views.PER_PAGE = 3
 
-        response = self.client.get(reverse('recipes:home'))
-        recipes = response.context['recipes']
-        paginator = recipes.paginator
+        # patch as context management
+        with patch('recipes.views.PER_PAGE', new=3):
+            response = self.client.get(reverse('recipes:home'))
+            recipes = response.context['recipes']
+            paginator = recipes.paginator
 
-        self.assertEqual(paginator.num_pages, 3)
+            self.assertEqual(paginator.num_pages, 3)
