@@ -60,13 +60,14 @@ class RecipeHomeViewsTest(RecipeTestBase):
         self.assertIn('<h1>No recipes found here!</h1>',
                       response.content.decode('utf-8'))
 
-    def test_recipe_home_templates_qtd_items_within_page(self):
+    def test_recipe_home_is_paginated(self):
         """Test for recipe that will be showed"""
-        self.make_recipe(is_published=False)
+        for i in range(18):
+            kwargs = {'author_data': {'username': f'u{i}'}, 'slug': f'r{i}'}
+            self.make_recipe(**kwargs)
 
         response = self.client.get(reverse('recipes:home'))
-        response_context_recipes = response.context['recipes']
+        recipes = response.context['recipes']
+        paginator = recipes.paginator
 
-        per_page = response_context_recipes.paginator.per_page
-
-        self.assertEqual(9, per_page)
+        self.assertEqual(paginator.num_pages, 2)
