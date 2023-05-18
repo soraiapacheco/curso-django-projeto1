@@ -1,5 +1,7 @@
 # from unittest import skip
 
+from unittest.mock import patch
+
 from django.urls import resolve, reverse
 
 from recipes import views
@@ -60,14 +62,22 @@ class RecipeHomeViewsTest(RecipeTestBase):
         self.assertIn('<h1>No recipes found here!</h1>',
                       response.content.decode('utf-8'))
 
+    # patch'mock package as decoration
+    @patch('recipes.views.PER_PAGE', new=3)
     def test_recipe_home_is_paginated(self):
-        """Test for recipe that will be showed"""
-        for i in range(18):
+        for i in range(9):
             kwargs = {'author_data': {'username': f'u{i}'}, 'slug': f'r{i}'}
             self.make_recipe(**kwargs)
+
+        # substituted by patch of mock (imported by unitest)
+        # the part of the code below can change the PER_PAGE for all tests
+        # So this code below is not a good practice of programmation
+        # import recipes
+        # simulating the per_page value
+        # recipes.views.PER_PAGE = 3
 
         response = self.client.get(reverse('recipes:home'))
         recipes = response.context['recipes']
         paginator = recipes.paginator
 
-        self.assertEqual(paginator.num_pages, 2)
+        self.assertEqual(paginator.num_pages, 3)
