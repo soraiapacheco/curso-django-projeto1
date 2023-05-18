@@ -66,6 +66,7 @@ class RecipeHomeViewsTest(RecipeTestBase):
 
         response = self.client.get(reverse('recipes:home'))
         response_context_recipes = response.context['recipes']
+
         per_page = response_context_recipes.paginator.per_page
 
         self.assertEqual(9, per_page)
