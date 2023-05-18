@@ -63,7 +63,7 @@ class RecipeHomeViewsTest(RecipeTestBase):
                       response.content.decode('utf-8'))
 
     def test_recipe_home_is_paginated(self):
-        for i in range(9):
+        for i in range(8):
             kwargs = {'author_data': {'username': f'u{i}'}, 'slug': f'r{i}'}
             self.make_recipe(**kwargs)
 
@@ -80,4 +80,13 @@ class RecipeHomeViewsTest(RecipeTestBase):
             recipes = response.context['recipes']
             paginator = recipes.paginator
 
+            # verify the amount of pages is equal to number of pages
+            # should have in the total
             self.assertEqual(paginator.num_pages, 3)
+
+            # takes all the recipes on a page and compares them
+            #  to the total amount that should be on each page.
+
+            self.assertEqual(len(paginator.get_page(1)), 3)
+            self.assertEqual(len(paginator.get_page(2)), 3)
+            self.assertEqual(len(paginator.get_page(3)), 2)
