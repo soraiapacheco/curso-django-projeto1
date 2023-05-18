@@ -8,7 +8,9 @@ from django.shortcuts import get_list_or_404, get_object_or_404, render
 from recipes.models import Recipe
 from utils.pagination import make_pagination
 
-PER_PAGE = os.environ.get('PER_PAGE', 6)  # Qty of recipes by page
+PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
+
+# print(PER_PAGE, type(PER_PAGE))
 
 
 def home(request):
