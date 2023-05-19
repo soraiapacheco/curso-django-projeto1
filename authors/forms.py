@@ -3,6 +3,27 @@ from django.contrib.auth.models import User
 
 
 class RegisterForm(forms.ModelForm):
+    password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Your password'
+        }),
+        error_messages={
+            'requires': 'Password must not be empty'
+        },
+        help_text=(
+            'Password must be at least one uppercase letter, '
+            'one lowercase letter and one number. The lenght should be '
+            'at least 8 characters.'
+        )
+    )
+    password2 = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Repeat your password'
+        })
+    )
+
     class Meta:
         model = User
         # for all fiels use: fields = '__all__'
