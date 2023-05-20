@@ -111,6 +111,7 @@ class RegisterForm(forms.ModelForm):
 
         return data
 
+    # when one field needs another field
     def clean(self):
         cleaned_data = super().clean()
 
@@ -118,9 +119,13 @@ class RegisterForm(forms.ModelForm):
         password2 = self.cleaned_data.get('password2')
 
         if password != password2:
+            password_confirmation_error = ValidationError(
+                'Password and password2 must be equal.',
+                code='invalid'
+            )
             raise ValidationError({
-                'password': ValidationError('Password and password2 must be equal.',
-                                            code='invalid'),
-                'password2': 'Password and password2 must be equal.',
+                'password': password_confirmation_error,
+                'password2': [password_confirmation_error,
+                              'Another error'],
             }
             )
