@@ -47,11 +47,13 @@ class RegisterForm(forms.ModelForm):
             'one lowercase letter and one number. The lenght should be '
             'at least 8 characters.'
         ),
+        label='Password',
         validators=[strong_password]
     )
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput()
+        widget=forms.PasswordInput(),
+        label='Password2'
     )
 
     class Meta:
@@ -72,7 +74,7 @@ class RegisterForm(forms.ModelForm):
             'first_name':  'First name',
             'last_name': 'Last name',
             'email': 'E-mail',
-            'password': 'Password',
+
         }
 
         help_texts = {
@@ -88,31 +90,8 @@ class RegisterForm(forms.ModelForm):
 
     # validate own Django
 
-    def clean_password(self):
-        data = self.cleaned_data['password']
-
-        if 'atention' in data:
-            raise ValidationError(
-                ('Não digite %(value)s no campo password.'),
-                code='invalid',
-                params={'value': '"atention"'},
-            )
-
-        return data
-
-    def clean_first_name(self):
-        data = self.cleaned_data.get('first_name')
-
-        if 'John Doe' in data:
-            raise ValidationError(
-                ('Não digite %(value)s no campo first name.'),
-                code='invalid',
-                params={'value': '"John Doe"'},
-            )
-
-        return data
-
     # when one field needs another field
+
     def clean(self):
         cleaned_data = super().clean()
 
