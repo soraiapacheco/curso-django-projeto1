@@ -5,6 +5,8 @@
 # from django.test import TestCase
 from unittest import TestCase
 
+from django.test import TestCase as DjangoTestCase
+from django.urls import reverse
 from parameterized import parameterized
 
 from authors.forms import RegisterForm
@@ -57,3 +59,30 @@ class AuthorRegisterFormUnitTest(TestCase):
         form = RegisterForm()
         current = form[field].field.label
         self.assertEqual(needed, current)
+
+
+class AuthorRegisterFormIntegratioTest(DjangoTestCase):
+    def setUp(self, *args, **kwargs) -> None:
+        self.form_data = {
+            'username': 'user',
+            'first_name': 'first',
+            'last_name': 'last',
+            'email': 'email@anyemail.com',
+            'password': 'Str0ngP@ssword1',
+            'password2': 'Str0ngP@ssword1',
+        }
+
+        return super().setUp(*args, **kwargs)
+
+    @parameterized.expand([('username', 'This field must not be empty')])
+    def test_fields_cannot_be_empty(self, field, msg):
+        self.form_data[field] = ''
+        # verify the url
+        url = reverse('authors:create')
+
+        # verifty the post of page
+        # follow means to follow the redirect within register_create in urls of author
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        # identify if the message is within the content of the page
+        self.assertIn(msg, response.content.decode('utf-8'))
