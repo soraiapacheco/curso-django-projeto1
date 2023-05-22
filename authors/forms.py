@@ -36,6 +36,20 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeat your password')
 
+    username = forms.CharField(
+        error_messages={
+            'required': 'This field must not be empty.',
+            'invalid': 'This field is invalid.',
+        },
+
+        required=True,
+        label='Username',
+        help_text=(
+            'Username must have letter, numbers or one of those @.+-_'
+            '. The lenght should be between 4 and 150 characters.'
+        )
+    )
+
     first_name = forms.CharField(
         error_messages={'required': 'Write your first name'},
         required=True,
@@ -82,17 +96,14 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         # for all fiels use: fields = '__all__'
-        fields = ['username',
+        fields = ['first_name',
+                  'last_name',
+                  'username',
+                  'password',
+                  'email',
                   ]
         # alter for all fields except first_name for example
         # exclude = ['first_name']
-
-        # Setting the labels
-        labels = {
-            'username': 'Username',
-
-
-        }
 
         error_messages = {
             'username': {
