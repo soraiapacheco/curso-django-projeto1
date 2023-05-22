@@ -1,4 +1,10 @@
-from django.test import TestCase
+
+
+# substituing TestCase of Django by TestCase of Python (unittest)
+# due to faster
+# from django.test import TestCase
+from unittest import TestCase
+
 from parameterized import parameterized
 
 from authors.forms import RegisterForm
