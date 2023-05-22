@@ -98,3 +98,27 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
         # to easy the read it uses the command below, you should
         #  comment the line above
         self.assertIn(msg, response.context['form'].errors.get(field))
+
+    def test_username_field_min_length_should_be_4(self):
+        # testing the wrong, because the username should be at least 4 characters and
+        # below username has 3 characters
+        self.form_data['username'] = 'joa'
+
+        url = reverse('authors:create')
+
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = 'Username must have at least 4 characters.'
+        self.assertIn(msg, response.context['form'].errors.get('username'))
+
+    def test_username_field_max_length_should_be_less_150(self):
+        # testing the wrong, because the username should be less than 150 characters and
+        # below username has 151 characters
+        self.form_data['username'] = 'A' * 151
+
+        url = reverse('authors:create')
+
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = 'Username must have less than 150 characters.'
+        self.assertIn(msg, response.context['form'].errors.get('username'))

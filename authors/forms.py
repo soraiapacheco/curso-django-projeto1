@@ -40,6 +40,8 @@ class RegisterForm(forms.ModelForm):
         error_messages={
             'required': 'This field must not be empty.',
             'invalid': 'This field is invalid.',
+            'min_length': 'Username must have at least 4 characters.',
+            'max_length': 'Username must have less than 150 characters.'
         },
 
         required=True,
@@ -47,7 +49,8 @@ class RegisterForm(forms.ModelForm):
         help_text=(
             'Username must have letter, numbers or one of those @.+-_'
             '. The lenght should be between 4 and 150 characters.'
-        )
+        ),
+        min_length=4, max_length=150,
     )
 
     first_name = forms.CharField(
