@@ -74,15 +74,27 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
 
         return super().setUp(*args, **kwargs)
 
-    @parameterized.expand([('username', 'This field must not be empty')])
+    @parameterized.expand([('username', 'This field must not be empty.'),
+                           ('first_name', 'Write your first name'),
+                           ('last_name', 'Write your last name'),
+                           ('password', 'Password must not be empty'),
+                           ('password2', 'Please, repeat your password'),
+                           ('email', 'Email is required'),
+
+                           ])
     def test_fields_cannot_be_empty(self, field, msg):
         self.form_data[field] = ''
         # verify the url
         url = reverse('authors:create')
 
         # verifty the post of page
-        # follow means to follow the redirect within register_create in urls of author
+        # follow means to follow the redirect within
+        # register_create in urls of author
         response = self.client.post(url, data=self.form_data, follow=True)
 
         # identify if the message is within the content of the page
         self.assertIn(msg, response.content.decode('utf-8'))
+
+        # to easy the read it uses the command below, you should
+        #  comment the line above
+        self.assertIn(msg, response.context['form'].errors.get(field))

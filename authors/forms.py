@@ -36,11 +36,30 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeat your password')
 
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name'},
+        required=True,
+        label='First name'
+    )
+
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        required=True,
+        label='Last name'
+    )
+    email = forms.EmailField(
+        error_messages={'required': 'Email is required'},
+        required=True,
+        label='E-mail',
+        help_text='The e-mail must be valid.',
+
+    )
+
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
         error_messages={
-            'requires': 'Password must not be empty'
+            'required': 'Password must not be empty'
         },
         help_text=(
             'Password must be at least one uppercase letter, '
@@ -50,20 +69,20 @@ class RegisterForm(forms.ModelForm):
         label='Password',
         validators=[strong_password]
     )
+
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
-        label='Password2'
+        label='Password2',
+        error_messages={
+            'required': 'Please, repeat your password'
+        },
     )
 
     class Meta:
         model = User
         # for all fiels use: fields = '__all__'
-        fields = ['first_name',
-                  'last_name',
-                  'username',
-                  'password',
-                  'email',
+        fields = ['username',
                   ]
         # alter for all fields except first_name for example
         # exclude = ['first_name']
@@ -71,14 +90,8 @@ class RegisterForm(forms.ModelForm):
         # Setting the labels
         labels = {
             'username': 'Username',
-            'first_name':  'First name',
-            'last_name': 'Last name',
-            'email': 'E-mail',
 
-        }
 
-        help_texts = {
-            'email': 'The e-mail must be valid.',
         }
 
         error_messages = {
@@ -109,3 +122,5 @@ class RegisterForm(forms.ModelForm):
                               'Another error'],
             }
             )
+
+        return cleaned_data
