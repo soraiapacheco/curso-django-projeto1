@@ -85,7 +85,7 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
     def test_fields_cannot_be_empty(self, field, msg):
         self.form_data[field] = ''
         # verify the url
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
 
         # verifty the post of page
         # follow means to follow the redirect within
@@ -104,7 +104,7 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
         # least 4 characters and below username has 3 characters
         self.form_data['username'] = 'joa'
 
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
 
         response = self.client.post(url, data=self.form_data, follow=True)
 
@@ -116,7 +116,7 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
         # characters and below username has 151 characters
         self.form_data['username'] = 'A' * 151
 
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
 
         response = self.client.post(url, data=self.form_data, follow=True)
 
@@ -127,7 +127,7 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
         # testing the wrong of password
         self.form_data['password'] = 'abc'
 
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
 
         response = self.client.post(url, data=self.form_data, follow=True)
 
@@ -138,7 +138,7 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
 
         # testing the password correct
         self.form_data['password'] = '@A123abc123'
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
         response = self.client.post(url, data=self.form_data, follow=True)
         self.assertNotIn(msg, response.context['form'].errors.get('password'))
 
@@ -147,7 +147,7 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
         self.form_data['password'] = '@A123abc123'
         self.form_data['password2'] = '@A123abc1234'
 
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
 
         response = self.client.post(url, data=self.form_data, follow=True)
 
@@ -158,18 +158,18 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
         # testing the password correct
         self.form_data['password'] = 'A123abc123'
         self.form_data['password2'] = 'A123abc123'
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
         self.assertNotIn(msg, response.content.decode('utf-8'))
 
     def test_send_get_request_to_registration_create_view_return_404(self):
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
     def test_email_field_must_be_unique(self):
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
 
         self.client.post(url, data=self.form_data, follow=True)
         response = self.client.post(url, data=self.form_data, follow=True)
@@ -180,7 +180,7 @@ class AuthorRegisterFormIntegratioTest(DjangoTestCase):
         self.assertIn(msg, response.content.decode('utf-8'))
 
     def test_author_created_can_login(self):
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
 
         self.form_data.update({
             'username': 'testuser',
