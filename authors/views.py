@@ -30,7 +30,10 @@ def register_create(request):
 
     # if the form is valid then save this form
     if form.is_valid():
-        form.save()
+        # salve just in the variable called user
+        user = form.save(commit=False)
+        user.set_password(user.password)  # treating the user password
+        form.save()  # now, it salves in the database
         messages.success(request, 'Your user is created, please log in.')
 
         del (request.session['register_form_data'])
