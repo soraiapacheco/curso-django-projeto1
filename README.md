@@ -1,5 +1,5 @@
 # curso-django-projeto1
-Curso de Django com Luiz Miranda
+Curso de Django com <a href="https://github.com/luizomf/curso-django-projeto1">Luiz Miranda</a>
 
 
 <h1>To Run This Project</h1>
