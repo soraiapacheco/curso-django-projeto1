@@ -63,9 +63,7 @@ class RecipeHomeViewsTest(RecipeTestBase):
                       response.content.decode('utf-8'))
 
     def test_recipe_home_is_paginated(self):
-        for i in range(8):
-            kwargs = {'author_data': {'username': f'u{i}'}, 'slug': f'r{i}'}
-            self.make_recipe(**kwargs)
+        self.make_recipes_in_batch(8)
 
         # substituted by patch of mock (imported by unitest)
         # the part of the code below can change the PER_PAGE for all tests
@@ -93,10 +91,7 @@ class RecipeHomeViewsTest(RecipeTestBase):
 
     def test_invalid_page_query_uses_page_one(self):
 
-        for i in range(8):
-            kwargs = {'author_data': {'username': f'u{i}'}, 'slug': f'r{i}'}
-            self.make_recipe(**kwargs)
-
+        self.make_recipes_in_batch(8)
         with patch('recipes.views.PER_PAGE', new=3):
             response = self.client.get(reverse('recipes:home')+'?page=1A')
 
