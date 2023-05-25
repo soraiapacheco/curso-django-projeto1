@@ -3,8 +3,8 @@ from django.test import TestCase
 from recipes.models import Category, Recipe, User
 
 
-class RecipeTestBase(TestCase):
-
+# Mixing is a pattern project that is one class that is one bag of methods
+class RecipeMixing:
     def make_category(self, name='Category'):
         return Category.objects.create(name=name)
 
@@ -57,3 +57,10 @@ class RecipeTestBase(TestCase):
             preparation_steps=preparation_steps,
             preparation_steps_is_html=preparation_steps_is_html,
             is_published=is_published)
+
+# # Python allows multiple inheritance
+
+
+class RecipeTestBase(TestCase, RecipeMixing):
+    def setUp(self) -> None:
+        return super().setUp()
