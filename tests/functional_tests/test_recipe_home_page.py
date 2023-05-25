@@ -23,8 +23,7 @@ class RecipeBaseFunctionalTest(StaticLiveServerTestCase):
 
 class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
 
-    def test_the_test(self):
-        browser = self.browser
-        browser.get(self.live_server_url)
-        body = browser.find_element(By.TAG_NAME, 'body')
+    def test_recipe_home_without_recipes_not_found_message(self):
+        self.browser.get(self.live_server_url)
+        body = self.browser.find_element(By.TAG_NAME, 'body')
         self.assertIn('No recipes found here!', body.text)
