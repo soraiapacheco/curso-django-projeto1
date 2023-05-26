@@ -17,7 +17,7 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
 
     @patch('recipes.views.PER_PAGE', new=2)  # 2 recipes by page
     def test_recipe_search_input_can_find_correct_recipes(self):
-        # self.make_recipe()
+        # creating the recipe
         recipes = self.make_recipes_in_batch()
 
         title_needed = 'This is what I need'
@@ -41,4 +41,19 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
                       self.browser.find_element(
                           By.CLASS_NAME,
                           'main-content-list').text)
+        self.sleep(6)
+
+    @patch('recipes.views.PER_PAGE', new=2)  # 2 recipes by page
+    def test_recipe_home_page_pagination(self):
+        # creating the recipe
+        recipes = self.make_recipes_in_batch()
+
+        # User opens the page
+        self.browser.get(self.live_server_url)
+
+        # See what has one pagination and type on the page 2
+        pagination = self.browser.find_element(
+            By.XPATH,
+            '//nav[@role="navigation"]'
+        )
         self.sleep(6)
