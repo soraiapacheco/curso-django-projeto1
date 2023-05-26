@@ -39,5 +39,7 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         search_input.send_keys(Keys.ENTER)
 
         self.assertIn(title_needed,
-                      self.browser.find_element(By.TAG_NAME, 'body').text)
+                      self.browser.find_element(
+                          By.CLASS_NAME,
+                          'main-content-list').text)
         self.sleep(6)
