@@ -20,6 +20,10 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         # self.make_recipe()
         recipes = self.make_recipes_in_batch()
 
+        title_needed = 'This is what I need'
+        recipes[0].title = title_needed
+        recipes[0].save()
+
         # User opens the page
         self.browser.get(self.live_server_url)
         # She/He sees one input in the field of search with the text: Search for a recipe
@@ -31,8 +35,9 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         # "Recipe title 1" to find the recipe with the title
         # search_input.click()
         # search_input.send_keys('Recipe title 1')
-        search_input.send_keys(recipes[0].title)
+        search_input.send_keys(title_needed)
         search_input.send_keys(Keys.ENTER)
 
+        self.assertIn(title_needed,
+                      self.browser.find_element(By.TAG_NAME, 'body').text)
         self.sleep(6)
-        # self.assertIn('No recipes found here!', body.text)
