@@ -46,14 +46,21 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
     @patch('recipes.views.PER_PAGE', new=2)  # 2 recipes by page
     def test_recipe_home_page_pagination(self):
         # creating the recipe
-        recipes = self.make_recipes_in_batch()
+        self.make_recipes_in_batch()
 
         # User opens the page
         self.browser.get(self.live_server_url)
 
         # See what has one pagination and type on the page 2
-        pagination = self.browser.find_element(
+        page2 = self.browser.find_element(
             By.XPATH,
-            '//nav[@aria-label="Main Pagination"]'
+            '//a[@aria-label="Go to page 2"]'
         )
-        self.sleep(6)
+        page2.click()
+        self.sleep()
+
+        # The user sees that has more 2 recipes on the page 2
+        self.assertEqual(
+            len(self.browser.find_elements(By.CLASS_NAME, 'recipe-list-item')),
+            2
+        )
