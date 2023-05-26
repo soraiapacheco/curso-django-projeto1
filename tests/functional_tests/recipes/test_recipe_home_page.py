@@ -54,6 +54,6 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         # See what has one pagination and type on the page 2
         pagination = self.browser.find_element(
             By.XPATH,
-            '//nav[@role="navigation"]'
+            '//nav[@aria-label="Main Pagination"]'
         )
         self.sleep(6)
