@@ -32,12 +32,11 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
             '//input[@placeholder="Search for a recipe"]'
         )
         # click in this input and type the term of search
-        # "Recipe title 1" to find the recipe with the title
-        # search_input.click()
-        # search_input.send_keys('Recipe title 1')
+        # to find the recipe with the title wanted
         search_input.send_keys(title_needed)
         search_input.send_keys(Keys.ENTER)
 
+        # The user sees what was looking for on the page
         self.assertIn(title_needed,
                       self.browser.find_element(
                           By.CLASS_NAME,
