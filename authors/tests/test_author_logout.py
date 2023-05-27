@@ -12,6 +12,5 @@ class AuthorLogoutTest(TestCase):
         response = self.client.get(reverse('authors:logout'),
                                    follow=True)
 
-        # This response is empty without follow parameter in the command
-        # previously because this method return one redirect and stop
-        print('NOSSO RESPONSE: ', response.content.decode('utf-8'))
+        self.assertIn('Invalid logout request',
+                      response.content.decode('utf-8'))
