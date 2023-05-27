@@ -36,5 +36,5 @@ class AuthorsLoginTest(AuthorBaseTest):
             self.browser.find_element(By.TAG_NAME, 'body').text
         )
 
-        self.sleep(6)
+        # self.sleep(6)
         assert 1 == 1
