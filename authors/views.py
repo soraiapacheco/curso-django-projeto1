@@ -111,15 +111,14 @@ def dashboard(request):
 
 @login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard_recipe_edit(request, id):
-    recipe = Recipe.objects.get(
+    recipe = Recipe.objects.filter(
         is_published=False,
         author=request.user,
         pk=id
-    )
-    # with get above not necessary the lines of commands below, because
-    # the get raises the errors
-    # if not recipe:
-    #     raise Http404()
+    ).first()
+
+    if not recipe:
+        raise Http404()
 
     form = AuthorRecipeForm(
         request.POST or None,
