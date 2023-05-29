@@ -165,8 +165,10 @@ def dashboard_recipe_new(request):
         # now, the form is salved in the database
         recipe.save()
         messages.success(request, 'Your recipe has been successfully created!')
-        return redirect(reverse('authors:dashboard'))
-
+        return redirect(
+            reverse('authors:dashboard_recipe_edit', args=(recipe.id,))
+        )
     return render(request, 'authors/pages/dashboard_recipe.html', context={
-        'form': form
+        'form': form,
+        'form_action': reverse('authors:dashboard_recipe_new')
     })
