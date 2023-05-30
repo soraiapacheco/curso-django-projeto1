@@ -9,17 +9,17 @@ from recipes.models import Recipe
 
 
 class DashboardRecipe(View):
-    def get_recipe(self, id):
+    def get_recipe(self, id=None):
         recipe = None
-        if id:
+        if id is not None:
             recipe = Recipe.objects.filter(
                 is_published=False,
                 author=self.request.user,
                 pk=id
             ).first()
 
-        if not recipe:
-            raise Http404()
+            if not recipe:
+                raise Http404()
 
         return recipe
 
@@ -28,16 +28,15 @@ class DashboardRecipe(View):
             'form': form
         })
 
-    def get(self, *args, **kwargs):
-        # print('Estou aqui na CBV!!!')
-        recipe = self.get_recipe(kwargs.get('id'))
+    def get(self, request, id=None):
+        print('Entro CBV new!!!')
+        recipe = self.get_recipe(id)
 
         form = AuthorRecipeForm(instance=recipe)
 
         return self.render_recipe(form)
 
-    def post(self, request, id):
-        # print('Estou aqui na CBV!!!')
+    def post(self, request, id=None):
         recipe = self.get_recipe(id)
 
         form = AuthorRecipeForm(
@@ -63,6 +62,6 @@ class DashboardRecipe(View):
             messages.success(
                 request, 'Your recipe has been successfully saved!')
             return redirect(reverse('authors:dashboard_recipe_edit',
-                                    args=(id,)))
+                                    args=(recipe.id,)))
 
         return self.render_recipe(form)
