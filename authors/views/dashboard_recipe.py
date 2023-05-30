@@ -28,9 +28,9 @@ class DashboardRecipe(View):
             'form': form
         })
 
-    def get(self, request, id):
+    def get(self, *args, **kwargs):
         # print('Estou aqui na CBV!!!')
-        recipe = self.get_recipe(id)
+        recipe = self.get_recipe(kwargs.get('id'))
 
         form = AuthorRecipeForm(instance=recipe)
 
