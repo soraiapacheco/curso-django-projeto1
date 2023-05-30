@@ -5,10 +5,13 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from authors.forms import LoginForm, RegisterForm
 from authors.forms.recipe_form import AuthorRecipeForm
 from recipes.models import Recipe
 
-from .forms import LoginForm, RegisterForm
+# from authors.forms import LoginForm, RegisterForm (recommended)
+# or
+#  from ..forms import LoginForm, RegisterForm
 
 
 # Create your views here.
@@ -128,9 +131,10 @@ def dashboard_recipe_edit(request, id):
 
     if form.is_valid():
         # form is valid
-        # it grants that the form is salved in recipes but doesn´t send to database
-        # that is done to conclude the form with values valid and it performes the
-        # validation
+        # it grants that the form is salved in recipes
+        # but doesn´t send to database
+        # that is done to conclude the form with values valid and
+        # it performes the validation
         recipe = form.save(commit=False)
         recipe.author = request.user
         recipe.preparation_steps_is_html = False
