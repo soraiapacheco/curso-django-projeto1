@@ -13,7 +13,7 @@ class RecipeSearchViewsTest(RecipeTestBase):
 
     def test_recipe_search_uses_correct_view_function(self):
         resolved = resolve(reverse('recipes:search'))
-        self.assertIs(resolved.func, views.search)
+        self.assertIs(resolved.func.view_class, views.RecipeListViewSearch)
 
     def test_recipe_search_loads_correct_template(self):
         url = reverse('recipes:search') + '?q=teste'
