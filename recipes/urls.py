@@ -20,9 +20,10 @@ from . import views
 app_name = 'recipes'
 urlpatterns = [
     path('', views.RecipeListViewHome.as_view(), name='home'),  # home
-    path('recipes/search/', views.search, name='search'),  # recipe
+    path('recipes/search/', views.RecipeListViewSearch.as_view(),
+         name='search'),  # recipe
     path('recipes/category/<int:category_id>/',
-         views.category, name='category'),  # recipe
+         views.RecipeListViewCategory.as_view(), name='category'),  # recipe
     path('recipes/<int:id>/', views.recipe, name='recipe'),  # recipe
 
 
