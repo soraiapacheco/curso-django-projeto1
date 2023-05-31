@@ -33,7 +33,9 @@ DEBUG = True if os.environ.get('DEBUG') == '1' else False
 #  determine the type or ignore the type with # type: ignore
 
 
-ALLOWED_HOSTS: List[str] = []
+# I dont know what my host, so I put "*", but it is not security,
+# because you allow any host in your app
+ALLOWED_HOSTS: List[str] = ['*']
 
 
 # Application definition
