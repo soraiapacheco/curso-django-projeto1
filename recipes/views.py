@@ -1,6 +1,5 @@
 # from utils.recipes.factory import make_recipe
 import os
-from typing import Any, Dict
 
 from django.db.models import Q
 from django.http.response import Http404
@@ -44,6 +43,10 @@ class RecipeListViewBase(ListView):
         )
 
         return ctx
+
+
+class RecipeListViewHome(RecipeListViewBase):
+    template_name = 'recipes/pages/home.html'
 
 
 def home(request):
