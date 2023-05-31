@@ -24,7 +24,8 @@ urlpatterns = [
          name='search'),  # recipe
     path('recipes/category/<int:category_id>/',
          views.RecipeListViewCategory.as_view(), name='category'),  # recipe
-    path('recipes/<int:id>/', views.recipe, name='recipe'),  # recipe
+    path('recipes/<int:pk>/', views.RecipeDetail.as_view(),
+         name='recipe'),  # recipe
 
 
 ]
