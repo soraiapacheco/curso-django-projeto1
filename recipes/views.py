@@ -1,11 +1,8 @@
 # from utils.recipes.factory import make_recipe
 import os
-from typing import Any
 
-from django.db import models
 from django.db.models import Q
 from django.http.response import Http404
-from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 
 from recipes.models import Recipe
