@@ -94,3 +94,42 @@ git config --global user.name 'Seu nome'
 git config --global user.email 'seu_email@gmail.com'
 git config --global init.defaultBranch main
 ```
+
+
+## No computador local, adicione o bare como remoto:
+
+
+git remote add app_bare sorai@34.28.197.108:~/app_bare
+
+git add .
+
+git commit -m "Criando os repositórios da aplicação e bare"
+
+# vai para o git do curso 
+git push
+
+# vai para o remoto (bare)
+git push app_bare main
+
+# no remoto no diretorio app_repo, digite:
+# Nesse diretorio: sorai@curso-django:~/app_repo$
+# ele vai puxar os dados do app_bare para app_repo 
+# cd  ~/app_repo
+# git pull origin <branch>
+
+git pull origin main
+
+
+
+
+## Criando o ambiente virtual
+
+```
+
+python3.9 -m venv venv
+. venv/bin/activate
+pip install -r requirements.txt
+pip install psycopg2
+pip install gunicorn
+```
+
