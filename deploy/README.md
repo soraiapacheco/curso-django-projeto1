@@ -122,9 +122,26 @@ git pull origin main
 
 
 
+
+# atualiza o requirements no computador local
+pip freeze > requirements.txt
+git add .
+git commit -m "adjusting requirements.txt"
+
+# envia para git hub ja configurado
+git push
+# envia para o remoto
+git push app_bare main
+
 ## Criando o ambiente virtual
 
-```
+cd  ~/app_repo
+
+## caso tenha atualizado o requirements.txt
+# traga a atualizacao para ca
+
+git pull origin main
+
 
 python3.9 -m venv venv
 . venv/bin/activate
@@ -132,4 +149,6 @@ pip install -r requirements.txt
 pip install psycopg2
 pip install gunicorn
 ```
+
+
 

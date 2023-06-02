@@ -1,0 +1,12 @@
+# Entrar no meu usuario do Google Cloud (soraiapasf@gmail.com)
+# Diretorio local: C:\Users\sorai\learning-django\curso-django-projeto1> 
+
+ssh sorai@34.28.197.108 -i 'c:\Users\sorai\.ssh\id_rsa'
+
+# Saber qual eh meu usuario no servidor do GoogleCloud
+# Servidor GoogleCloud: sorai@curso-django:~$ 
+
+whoami
+
+# reiniciar o servidor
+ sudo reboot
