@@ -19,13 +19,20 @@ from . import views
 
 app_name = 'recipes'
 urlpatterns = [
-    path('', views.RecipeListViewHome.as_view(), name='home'),  # home
-    path('recipes/search/', views.RecipeListViewSearch.as_view(),
+    path('',
+         views.RecipeListViewHome.as_view(),
+         name='home'),  # home
+    path('recipes/search/',
+         views.RecipeListViewSearch.as_view(),
          name='search'),  # recipe
     path('recipes/category/<int:category_id>/',
-         views.RecipeListViewCategory.as_view(), name='category'),  # recipe
-    path('recipes/<int:pk>/', views.RecipeDetail.as_view(),
+         views.RecipeListViewCategory.as_view(),
+         name='category'),  # recipe
+    path('recipes/<int:pk>/',
+         views.RecipeDetail.as_view(),
          name='recipe'),  # recipe
-
+    path('recipes/api/v1/',
+         views.RecipeListViewHomeApi.as_view(),
+         name='recipe'),  # recipe
 
 ]
