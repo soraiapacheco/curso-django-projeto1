@@ -10,3 +10,28 @@ whoami
 
 # reiniciar o servidor
  sudo reboot
+
+ # trazer arquivos enviados para o git para o servidor Google Cloud
+ 
+ #No computador local
+ git add .
+
+ git commit -m 'comentario - ALTERE-ME'
+
+# envia para o GitHub
+ git push 
+
+ # envia para o app_bare do Gooble Cloud
+ git push app_bare main
+
+ # No servidor do Google Cloud, no diretorio do projeto "sorai@curso-django:~/app_repo$"
+ git pull origin main
+
+ # verifica o status do git
+ git status
+
+ # SEMPRE ATUALIZE OS ARQUIVOS NO SERVIDOR DO GoogleCloud
+  git pull origin main
+
+ # ATIVE O Ambiente Virtual em app_repo
+ . venv/bin/activate  
