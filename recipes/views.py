@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http.response import Http404
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
 from recipes.models import Recipe
@@ -13,6 +14,22 @@ from utils.pagination import make_pagination
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
 
 # print(PER_PAGE, type(PER_PAGE))
+
+
+def theory(request, *args, **kwargs):
+    recipes = Recipe.objects.all()
+
+    # print(recipes[1])
+    # print(recipes[2:3])
+    recipes = recipes.filter(title__icontains='Teste')
+
+    # if you transform the queryset in list, the Django take all recipes
+    # list(recipes)
+    context = {'recipes': recipes}
+
+    return render(request,
+                  'recipes/pages/theory.html',
+                  context=context)
 
 
 class RecipeListViewBase(ListView):

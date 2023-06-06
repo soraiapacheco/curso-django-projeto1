@@ -8,8 +8,10 @@ ssh sorai@34.28.197.108 -i 'c:\Users\sorai\.ssh\id_rsa'
 
 whoami
 
-# reiniciar o servidor
+# sair do servidor
  sudo reboot
+ # ou
+ logout
 
  # trazer arquivos enviados para o git para o servidor Google Cloud
  
@@ -35,3 +37,26 @@ whoami
 
  # ATIVE O Ambiente Virtual em app_repo
  . venv/bin/activate  
+
+ # Ao subir novamente o código e incluiu Django Debug Toolbar, eh preciso fazer o instalacao desse app
+ # Lembre-se de ja ter atualizado e subido para o Github esse arquivo
+ # gerar o arquivo no computador local
+ pip freeze > requirements.txt
+
+ # instalar o requirements no servidor do GoogleCloud
+  pip install -r requirements.txt
+
+
+# Para além do deploy
+
+# Para verificar a cobertura dos testes e gravar o relatorio em um html
+coverage run -m pytest && coverage html  
+
+# Para executar apenas um teste
+pytest -k 'test_user_tries_to_logout_another_user' -rP  
+
+# Colocar todos os arquivos estaticos em um unico diretorio
+python manage.py collectstatic  
+
+# para instalar o django debug Toolbar
+pip install django-debug-toolbar  
