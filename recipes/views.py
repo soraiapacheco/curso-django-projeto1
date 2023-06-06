@@ -18,18 +18,8 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
 
 
 def theory(request, *args, **kwargs):
-    try:
-        # recipes = Recipe.objects.get(pk=1000000)
-        # O get levanta error se não encontrar
-        recipes = Recipe.objects.get(pk=1)
-
-    except ObjectDoesNotExist:
-        recipes = None
-
-    # recipes = Recipe.objects.all()
-
-    # recipes = recipes \
-    #    .filter(title__icontains='Teste') \
+    recipes = Recipe.objects \
+        .filter(title__icontains='da')[:10]
     #    .order_by('-id') \
     #    .first()
     # .last()
