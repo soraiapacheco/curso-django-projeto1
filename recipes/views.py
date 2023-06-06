@@ -19,7 +19,8 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
 
 def theory(request, *args, **kwargs):
     recipes = Recipe.objects \
-        .filter(title__icontains='da')[:10]
+        .filter(title__icontains='da',
+                id__gt=2)[:10]  # gt significa "maior que"
     #    .order_by('-id') \
     #    .first()
     # .last()
