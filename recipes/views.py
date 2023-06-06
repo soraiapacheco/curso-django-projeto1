@@ -1,7 +1,8 @@
 # from utils.recipes.factory import make_recipe
 import os
 
-from django.db.models import F, Q  # para consultas que use Or
+from django.db.models import Q
+from django.db.models.aggregates import Count
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http.response import Http404
@@ -23,9 +24,18 @@ def theory(request, *args, **kwargs):
     # vc solicitou no template
     # ISSO PODE DERRUBAR SEU SERVIDOR
     recipes = Recipe.objects \
-        .defer('is_published')
+        .values('id', 'title')[:5]
+    # .filter(title__icontains='Teste')
+    # .filter(author_id__gt=1)
 
-    context = {'recipes': recipes}
+    # num_of_recipes = Recipe.objects.aggregate(number=Count('id'))
+
+    # usando o objeto criado anteriormente ao invés de fazer o calculo a parte
+    # o comando anterior
+    num_of_recipes = recipes.aggregate(number=Count('id'))
+
+    context = {'recipes': recipes,
+               'number_of_recipes': num_of_recipes['number']}
 
     return render(request,
                   'recipes/pages/theory.html',
@@ -48,7 +58,8 @@ class RecipeListViewBase(ListView):
 
         # you can use prefetch_related when you have a relation of many to many
         # qs = qs.prefetch_related('author', 'category')
-        # In this our case, we keep the select_related because our relation is of one to many
+        # In this our case, we keep the select_related
+        #  because our relation is of one to many
         qs = qs.select_related('author', 'category')
 
         return qs
