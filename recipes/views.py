@@ -1,6 +1,7 @@
 # from utils.recipes.factory import make_recipe
 import os
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
@@ -17,11 +18,25 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
 
 
 def theory(request, *args, **kwargs):
-    recipes = Recipe.objects.all()
+    try:
+        # recipes = Recipe.objects.get(pk=1000000)
+        # O get levanta error se não encontrar
+        recipes = Recipe.objects.get(pk=1)
+
+    except ObjectDoesNotExist:
+        recipes = None
+
+    # recipes = Recipe.objects.all()
+
+    # recipes = recipes \
+    #    .filter(title__icontains='Teste') \
+    #    .order_by('-id') \
+    #    .first()
+    # .last()
 
     # print(recipes[1])
     # print(recipes[2:3])
-    recipes = recipes.filter(title__icontains='Teste')
+    # recipes = recipes.filter(title__icontains='Teste')
 
     # if you transform the queryset in list, the Django take all recipes
     # list(recipes)
