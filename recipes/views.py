@@ -1,7 +1,7 @@
 # from utils.recipes.factory import make_recipe
 import os
 
-from django.db.models import Q  # para consultas que use Or
+from django.db.models import F, Q  # para consultas que use Or
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http.response import Http404
@@ -18,14 +18,9 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
 
 def theory(request, *args, **kwargs):
     recipes = Recipe.objects \
-        .filter(Q(Q(title__icontains='da',
-                id__gt=2,
-                is_published=True,) |
-                Q(
-                id__gt=1000
-                ))
-                )[:10]  # gt significa "maior que"
-    #    .order_by('-id') \
+        .filter(id=F('author__id')
+                ).order_by('id', '-title')  # ordenando crescente
+    #    .order_by('-id') # ordenando decrescente
     #    .first()
     # .last()
 
