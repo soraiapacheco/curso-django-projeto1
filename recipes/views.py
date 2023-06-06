@@ -18,18 +18,8 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
 
 def theory(request, *args, **kwargs):
     recipes = Recipe.objects \
-        .filter(id=F('author__id')
-                ).order_by('id', '-title')  # ordenando crescente
-    #    .order_by('-id') # ordenando decrescente
-    #    .first()
-    # .last()
+        .values('id', 'title', 'author__username')[:10]
 
-    # print(recipes[1])
-    # print(recipes[2:3])
-    # recipes = recipes.filter(title__icontains='Teste')
-
-    # if you transform the queryset in list, the Django take all recipes
-    # list(recipes)
     context = {'recipes': recipes}
 
     return render(request,
