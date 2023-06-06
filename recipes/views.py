@@ -17,6 +17,9 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
 
 
 def theory(request, *args, **kwargs):
+    # cuidado ao usar o only pq se no template você incluir mais campos ele vai fazer uma outra
+    # consulta para cada consulta feita para buscar os campos que vc solicitou no template
+    # ISSO PODE DERRUBAR SEU SERVIDOR
     recipes = Recipe.objects \
         .only('id', 'title')
 
