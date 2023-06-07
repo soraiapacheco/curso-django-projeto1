@@ -1,8 +1,9 @@
 # from utils.recipes.factory import make_recipe
 import os
 
-from django.db.models import Q
+from django.db.models import F, Q, Value
 from django.db.models.aggregates import Count
+from django.db.models.functions import Concat
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http.response import Http404
@@ -18,20 +19,16 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))  # Qty of recipes by page
 
 
 def theory(request, *args, **kwargs):
-    # cuidado ao usar o DEFER() pq se no template você incluir mais campos
-    # ele vai fazer uma outra
-    # consulta para cada consulta feita para buscar os campos que
-    # vc solicitou no template
-    # ISSO PODE DERRUBAR SEU SERVIDOR
+
     recipes = Recipe.objects \
-        .values('id', 'title')[:5]
-    # .filter(title__icontains='Teste')
-    # .filter(author_id__gt=1)
+        .all().annotate(author_full_name=Concat(
+            F('author__first_name'),
+            Value('  '),
+            F('author__last_name'),
+            Value(' ('),
+            F('author__username'),
+            Value(')')))[:5]
 
-    # num_of_recipes = Recipe.objects.aggregate(number=Count('id'))
-
-    # usando o objeto criado anteriormente ao invés de fazer o calculo a parte
-    # o comando anterior
     num_of_recipes = recipes.aggregate(number=Count('id'))
 
     context = {'recipes': recipes,
