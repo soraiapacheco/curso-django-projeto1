@@ -12,23 +12,24 @@ class Tag(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
 
-    # Aqui começam os campos para relação genérica, de acordo com a documentaco do Django
+    # Aqui começam os campos para relação genérica, de acordo com
+    # a documentaco do Django
     # Representa o model que quero  aqui
-    content_type = models.ForeignKey(ContentType, on_delte=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     # Represetna o id da linha do model descrito acima
-    object_id = models.CharField()
+    object_id = models.CharField(max_length=255)
     # Um campo que representa a relação genérica que conheci
     # os campos acima  (content_type e object_id)
     content_object = GenericForeignKey('content_type', 'object_id')
 
     # models normais
 
-    def safe(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         if not self.slug:
             rand_letters = ''.join(
                 SystemRandom().choices(
                     string.ascii_letters + string.digits,
-                    K=5,
+                    k=5,
                 )
             )
             self.slug = slugify(f'{self.name}-{rand_letters}')
