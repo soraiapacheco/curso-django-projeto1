@@ -25,6 +25,9 @@ urlpatterns = [
     path('recipes/search/',
          views.RecipeListViewSearch.as_view(),
          name='search'),  # recipe
+    path('recipes/tags/<slug:slug>/',
+         views.RecipeListViewTag.as_view(),
+         name='tag'),  # recipe|tag
     path('recipes/category/<int:category_id>/',
          views.RecipeListViewCategory.as_view(),
          name='category'),  # recipe
