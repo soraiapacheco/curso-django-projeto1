@@ -10,7 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+
 import os
+
+if os.environ.get('DEBUG', None) is None:
+    from dotenv import load_dotenv
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
+    load_dotenv()
+
 from pathlib import Path
 from typing import List
 
