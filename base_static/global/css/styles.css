@@ -457,6 +457,11 @@ a {
     margin: var(--spacing-gutter-medium);
 }
 
+.hidden-text {
+   display: none;
+
+}
+
 .pagination-content {
     display: flex;
     flex-flow: row wrap;
