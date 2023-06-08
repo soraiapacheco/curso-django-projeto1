@@ -60,3 +60,16 @@ python manage.py collectstatic
 
 # para instalar o django debug Toolbar
 pip install django-debug-toolbar  
+
+# Para jogar o código no servidor e executar todos os comandos de commit e reiniciar o Servidor NgInx
+
+ssh sorai@34.28.197.108 -i 'c:\Users\sorai\.ssh\id_rsa' 
+#no servidor você pode executar todos os comandos
+' cd ~/app_repo ; git pull origin main ; venv/bin/python manage.py makemigrations ; venv/bin/python manage.py migrate ; sudo systemctl restart curso_django ; sudo systemctl restart nginx ;'
+
+# Caso ocorra erro no servidor, você pode tentar entender, olhando o log de error do servidor
+echo '' > gunicorn-error-log
+tail - f gunicorn-error-log
+
+# Git - desfazer tudo que eu fiz e voltar ao codigo anterior
+git reset --hard
