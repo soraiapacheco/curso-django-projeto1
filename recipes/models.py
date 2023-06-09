@@ -88,6 +88,8 @@ class Recipe(models.Model):
             slug = f'{slugify(self.title)}'
             self.slug = slug
 
+        saved = super().save(*args, **kwargs)
+
         if self.cover:
             try:
 
@@ -95,7 +97,7 @@ class Recipe(models.Model):
             except FileNotFoundError:
                 ...
 
-        return super().save(*args, **kwargs)
+        return saved
 
     def clean(self, *args, **kwargs):
         error_messages = defaultdict(list)
